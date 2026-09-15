@@ -1,4 +1,4 @@
-package main.java.edu.eci.dosw.tdd.skyrescue.mission;
+package edu.eci.dosw.tdd.skyrescue.mission;
 
 public enum MissionStatus {
     ACTIVE,

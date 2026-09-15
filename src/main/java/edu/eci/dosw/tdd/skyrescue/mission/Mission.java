@@ -1,7 +1,7 @@
-package main.java.edu.eci.dosw.tdd.skyrescue.mission;
+package edu.eci.dosw.tdd.skyrescue.mission;
 
-import main.java.edu.eci.dosw.tdd.skyrescue.drone.Drone;
-import main.java.edu.eci.dosw.tdd.skyrescue.operator.RescueOperator;
+import edu.eci.dosw.tdd.skyrescue.drone.Drone;
+import edu.eci.dosw.tdd.skyrescue.operator.RescueOperator;
 
 import java.time.LocalDateTime;
 
