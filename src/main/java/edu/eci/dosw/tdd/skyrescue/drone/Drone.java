@@ -1,4 +1,4 @@
-package main.java.edu.eci.dosw.tdd.skyrescue.drone;
+package edu.eci.dosw.tdd.skyrescue.drone;
 
 import java.util.Objects;
 

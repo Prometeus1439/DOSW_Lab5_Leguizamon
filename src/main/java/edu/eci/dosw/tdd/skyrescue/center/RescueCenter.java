@@ -1,8 +1,8 @@
-package main.java.edu.eci.dosw.tdd.skyrescue.center;
+package edu.eci.dosw.tdd.skyrescue.center;
 
-import main.java.edu.eci.dosw.tdd.skyrescue.drone.Drone;
-import main.java.edu.eci.dosw.tdd.skyrescue.mission.Mission;
-import main.java.edu.eci.dosw.tdd.skyrescue.operator.RescueOperator;
+import edu.eci.dosw.tdd.skyrescue.drone.Drone;
+import edu.eci.dosw.tdd.skyrescue.mission.Mission;
+import edu.eci.dosw.tdd.skyrescue.operator.RescueOperator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +37,23 @@ public class RescueCenter {
      * @return true if it was registered; false otherwise.
      */
     public boolean addDrone(Drone drone) {
-        // TODO Implement using TDD.
-        return false;
+
+        if(drone == null){
+            return false;
+        }
+        
+        String id = drone.getId();
+
+        if(id == null || id.isBlank()){
+            return false;
+        }
+
+        if(drones.containsKey(id)){
+            return false;
+        }
+
+        drones.put(drone.getId(), drone);
+        return true;
     }
 
     /**
