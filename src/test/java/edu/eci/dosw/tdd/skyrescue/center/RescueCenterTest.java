@@ -1,7 +1,12 @@
 package edu.eci.dosw.tdd.skyrescue.center;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import edu.eci.dosw.tdd.skyrescue.mission.Mission;
+import edu.eci.dosw.tdd.skyrescue.mission.MissionStatus;
+import edu.eci.dosw.tdd.skyrescue.operator.RescueOperator;
 
 import org.junit.jupiter.api.Test;
 
@@ -62,5 +67,32 @@ public class RescueCenterTest {
         assertTrue(firstResult);
         assertFalse(secondResult);
     }
+
+    private RescueCenter center;
+    private Drone drone;
+    private RescueOperator operator;
+
+    @BeforeEach
+    void setUp(){
+        center = new RescueCenter();
+        drone = new Drone("d1", "Matrice300", 50);
+        operator = new RescueOperator("o1","Mike");
+    }
+
+    @Test
+    void shouldCreateActiveMissionWhenOperatorAndDroneAreValid() {
+        // Arrange
+        center.addDrone(drone);
+        center.addOperator(operator);
+
+        // Act
+        Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+
+        // Assert
+        assertEquals(MissionStatus.ACTIVE, createdMission.getStatus());
+        assertFalse(drone.isAvailable());
+    }
+
+    
 
 }
