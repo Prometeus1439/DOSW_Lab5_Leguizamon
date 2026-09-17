@@ -133,4 +133,16 @@ public class RescueCenterTest {
             
     }
 
+    
+    @Test 
+    void shouldThrowExceptionWhenOperatorDoesNotExist(){
+        // Arrange
+            center.addDrone(drone);
+
+        // Act & Assert
+            assertThrows(IllegalArgumentException.class, () ->{
+                center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+        });
+    }
+
 }
