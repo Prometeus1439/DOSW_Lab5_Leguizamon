@@ -145,4 +145,19 @@ public class RescueCenterTest {
         });
     }
 
+    @Test
+    void shouldNotCreateMissionWhenOperatorIsAssigned() {
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+            Drone secondDrone = new Drone("d2", "Matrice3008", 80);
+            center.addDrone(secondDrone);
+            center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+
+        // Act & Assert
+            assertThrows(IllegalStateException.class, () ->{
+                    center.assignMission(operator.getId(), secondDrone.getId(), "Zona A", 40);
+            });
+    }
+
 }
