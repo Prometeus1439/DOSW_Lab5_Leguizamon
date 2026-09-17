@@ -113,7 +113,18 @@ public class RescueCenter {
         foundDrone.setAvailable(false);
         String id = UUID.randomUUID().toString();
 
-        return new Mission(id, location, distanceKm, foundDrone, foundOperator, LocalDateTime.now(), MissionStatus.ACTIVE);
+        Mission createdMission = new Mission(id, location, distanceKm, foundDrone, foundOperator, LocalDateTime.now(), MissionStatus.ACTIVE);
+
+        boolean result = missions.stream()
+            .anyMatch(e -> e.getStatus().equals(MissionStatus.ACTIVE) && e.getOperator().getId().equals(foundOperator.getId()));
+
+        if(result){
+            throw new IllegalStateException("El operador tiene otra misión activa");
+        }
+
+        missions.add(createdMission);
+
+        return createdMission;
 
     }
 
