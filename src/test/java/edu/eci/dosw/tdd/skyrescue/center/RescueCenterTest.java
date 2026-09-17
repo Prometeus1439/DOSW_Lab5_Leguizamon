@@ -119,4 +119,18 @@ public class RescueCenterTest {
             
     }
 
+    @Test 
+    void shouldThrowExceptionWhenDistanceIsFurtherThanDroneAutonomy(){
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+
+
+        // Act & Assert
+            assertThrows(IllegalArgumentException.class, () ->{
+                center.assignMission(operator.getId(), drone.getId(), "Zona A", 60);
+        });
+            
+    }
+
 }
