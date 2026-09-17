@@ -2,12 +2,15 @@ package edu.eci.dosw.tdd.skyrescue.center;
 
 import edu.eci.dosw.tdd.skyrescue.drone.Drone;
 import edu.eci.dosw.tdd.skyrescue.mission.Mission;
+import edu.eci.dosw.tdd.skyrescue.mission.MissionStatus;
 import edu.eci.dosw.tdd.skyrescue.operator.RescueOperator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.time.LocalDateTime;
 
 /**
  * Coordinates drones, operators and emergency missions.
@@ -85,8 +88,40 @@ public class RescueCenter {
             String droneId,
             String location,
             int distanceKm) {
-        // TODO Implement using TDD.
-        return null;
+
+        RescueOperator foundOperator = findOperatorById(operatorId);
+
+        if(foundOperator == null){
+            throw new IllegalArgumentException("Operador inexistente");
+        }
+
+        Drone foundDrone = drones.get(droneId);
+        if(foundDrone == null){
+            throw new IllegalArgumentException("Dron inexistente");
+        }
+        if(!foundDrone.isAvailable()){
+            throw new IllegalStateException("Dron ya ocupado");
+        }
+        if(distanceKm > foundDrone.getMaxRangeKm()){
+            throw new IllegalArgumentException("La distancia es mayor a la autonomía del dron");
+        }
+
+
+        foundDrone.setAvailable(false);
+        String id = UUID.randomUUID().toString();
+
+        Mission createdMission = new Mission(id, location, distanceKm, foundDrone, foundOperator, LocalDateTime.now(), MissionStatus.ACTIVE);
+
+        boolean result = hasActiveMission(foundOperator);
+
+        if(result){
+            throw new IllegalStateException("El operador tiene otra misión activa");
+        }
+
+        missions.add(createdMission);
+
+        return createdMission;
+
     }
 
     /**
@@ -114,5 +149,18 @@ public class RescueCenter {
 
     public boolean addOperator(RescueOperator operator) {
         return operators.add(operator);
+    }
+
+    private RescueOperator findOperatorById(String operatorId) {
+        return operators.stream()
+                .filter(op -> op.getId().equals(operatorId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private boolean hasActiveMission(RescueOperator operator) {
+        return missions.stream()
+                .anyMatch(e -> e.getStatus().equals(MissionStatus.ACTIVE) 
+                        && e.getOperator().getId().equals(operator.getId()));
     }
 }
