@@ -101,6 +101,9 @@ public class RescueCenter {
         if(!foundDrone.isAvailable()){
             throw new IllegalStateException("Dron ya ocupado");
         }
+        if(distanceKm > foundDrone.getMaxRangeKm()){
+            throw new IllegalArgumentException("La distancia es mayor a la autonomía del dron");
+        }
 
 
         foundDrone.setAvailable(false);
