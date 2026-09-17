@@ -186,4 +186,18 @@ public class RescueCenterTest {
         });
     }
 
+    @Test
+    void shouldNotCloseTwiceTheSameMission() {
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+            Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+            center.completeMission(createdMission.getId());
+
+        // Act & Assert
+            assertThrows(IllegalStateException.class, () ->{
+                    center.completeMission(createdMission.getId());
+            });
+    }
+
 }
