@@ -150,6 +150,10 @@ public class RescueCenter {
                 .findFirst()
                 .orElse(null);
 
+        if(foundMission == null){
+            throw new IllegalArgumentException("Misión inexistente");
+        }
+
         foundMission.setStatus(MissionStatus.COMPLETED);
         foundMission.setEndDate(LocalDateTime.now());
         Drone foundDrone = foundMission.getDrone();
