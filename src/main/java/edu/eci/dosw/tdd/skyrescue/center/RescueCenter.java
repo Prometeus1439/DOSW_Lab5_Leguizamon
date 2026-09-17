@@ -145,10 +145,7 @@ public class RescueCenter {
     public Mission completeMission(String missionId) {
         // TODO Implement using TDD.
 
-        Mission foundMission = missions.stream()
-                .filter(m -> m.getId().equals(missionId))
-                .findFirst()
-                .orElse(null);
+        Mission foundMission = findMissionById(missionId);
 
         if(foundMission == null){
             throw new IllegalArgumentException("Misión inexistente");
@@ -181,5 +178,12 @@ public class RescueCenter {
         return missions.stream()
                 .anyMatch(e -> e.getStatus().equals(MissionStatus.ACTIVE) 
                         && e.getOperator().getId().equals(operator.getId()));
+    }
+
+    private Mission findMissionById(String missionId) {
+        return missions.stream()
+                .filter(m -> m.getId().equals(missionId))
+                .findFirst()
+                .orElse(null);
     }
 }
