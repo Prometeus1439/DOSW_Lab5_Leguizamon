@@ -144,7 +144,23 @@ public class RescueCenter {
      */
     public Mission completeMission(String missionId) {
         // TODO Implement using TDD.
-        return null;
+
+        Mission foundMission = findMissionById(missionId);
+
+        if(foundMission == null){
+            throw new IllegalArgumentException("Misión inexistente");
+        }
+
+        if (foundMission.getStatus().equals(MissionStatus.COMPLETED)) {
+            throw new IllegalStateException("La misión ya fue completada");
+        }
+
+        foundMission.setStatus(MissionStatus.COMPLETED);
+        foundMission.setEndDate(LocalDateTime.now());
+        Drone foundDrone = foundMission.getDrone();
+        foundDrone.setAvailable(true);
+
+        return foundMission;
     }
 
     public boolean addOperator(RescueOperator operator) {
@@ -162,5 +178,12 @@ public class RescueCenter {
         return missions.stream()
                 .anyMatch(e -> e.getStatus().equals(MissionStatus.ACTIVE) 
                         && e.getOperator().getId().equals(operator.getId()));
+    }
+
+    private Mission findMissionById(String missionId) {
+        return missions.stream()
+                .filter(m -> m.getId().equals(missionId))
+                .findFirst()
+                .orElse(null);
     }
 }

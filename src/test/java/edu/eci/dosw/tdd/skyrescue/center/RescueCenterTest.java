@@ -2,6 +2,8 @@ package edu.eci.dosw.tdd.skyrescue.center;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -158,6 +160,64 @@ public class RescueCenterTest {
             assertThrows(IllegalStateException.class, () ->{
                     center.assignMission(operator.getId(), secondDrone.getId(), "Zona A", 40);
             });
+    }
+
+    @Test
+    void shouldCloseAnActiveMission() {
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+            Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+
+        // Act
+            Mission missionCompleted = center.completeMission(createdMission.getId());
+
+        // Assert
+            assertEquals(MissionStatus.COMPLETED, missionCompleted.getStatus());
+            assertNotNull(missionCompleted.getEndDate());
+            assertTrue(drone.isAvailable());
+    }
+
+    @Test 
+    void shouldThrowExceptionWhenMissionDoesNotExist(){
+        // Act & Assert
+            assertThrows(IllegalArgumentException.class, () ->{
+                center.completeMission("mision-inexistente");
+        });
+    }
+
+    @Test
+    void shouldNotCloseTwiceTheSameMission() {
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+            Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+            center.completeMission(createdMission.getId());
+
+        // Act & Assert
+            assertThrows(IllegalStateException.class, () ->{
+                    center.completeMission(createdMission.getId());
+            });
+    }
+
+    @Test
+    void shouldNotModifyAnotherMissionWhenTheOtherOneIsClosed() {
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+            Drone secondDrone = new Drone("d2", "Matrice289", 60);
+            RescueOperator secondOperator = new RescueOperator("o2", "Andrew");
+            center.addDrone(secondDrone);
+            center.addOperator(secondOperator);
+            Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+            Mission openMission = center.assignMission(secondOperator.getId(), secondDrone.getId(), "Zona B", 15);
+
+        // Act 
+            center.completeMission(createdMission.getId());
+
+        // Assert
+            assertEquals(MissionStatus.ACTIVE, openMission.getStatus());
+            assertFalse(secondDrone.isAvailable());
     }
 
 }
