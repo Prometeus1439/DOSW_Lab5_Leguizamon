@@ -94,6 +94,10 @@ public class RescueCenter {
             .findFirst()
             .orElse(null);
 
+        if(foundOperator == null){
+            throw new IllegalArgumentException("Operador inexistente");
+        }
+
         Drone foundDrone = drones.get(droneId);
         if(foundDrone == null){
             throw new IllegalArgumentException("Dron inexistente");
