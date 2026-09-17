@@ -200,4 +200,24 @@ public class RescueCenterTest {
             });
     }
 
+    @Test
+    void shouldNotModifyAnotherMissionWhenTheOtherOneIsClosed() {
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+            Drone secondDrone = new Drone("d2", "Matrice289", 60);
+            RescueOperator secondOperator = new RescueOperator("o2", "Andrew");
+            center.addDrone(secondDrone);
+            center.addOperator(secondOperator);
+            Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+            Mission openMission = center.assignMission(secondOperator.getId(), secondDrone.getId(), "Zona B", 15);
+
+        // Act 
+            center.completeMission(createdMission.getId());
+
+        // Assert
+            assertEquals(MissionStatus.ACTIVE, openMission.getStatus());
+            assertFalse(secondDrone.isAvailable());
+    }
+
 }
