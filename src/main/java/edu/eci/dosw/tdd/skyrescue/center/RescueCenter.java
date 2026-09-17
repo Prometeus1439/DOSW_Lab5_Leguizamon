@@ -89,10 +89,7 @@ public class RescueCenter {
             String location,
             int distanceKm) {
 
-        RescueOperator foundOperator = operators.stream()
-            .filter(op -> op.getId().equals(operatorId))
-            .findFirst()
-            .orElse(null);
+        RescueOperator foundOperator = findOperatorById(operatorId);
 
         if(foundOperator == null){
             throw new IllegalArgumentException("Operador inexistente");
@@ -115,8 +112,7 @@ public class RescueCenter {
 
         Mission createdMission = new Mission(id, location, distanceKm, foundDrone, foundOperator, LocalDateTime.now(), MissionStatus.ACTIVE);
 
-        boolean result = missions.stream()
-            .anyMatch(e -> e.getStatus().equals(MissionStatus.ACTIVE) && e.getOperator().getId().equals(foundOperator.getId()));
+        boolean result = hasActiveMission(foundOperator);
 
         if(result){
             throw new IllegalStateException("El operador tiene otra misión activa");
@@ -153,5 +149,18 @@ public class RescueCenter {
 
     public boolean addOperator(RescueOperator operator) {
         return operators.add(operator);
+    }
+
+    private RescueOperator findOperatorById(String operatorId) {
+        return operators.stream()
+                .filter(op -> op.getId().equals(operatorId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private boolean hasActiveMission(RescueOperator operator) {
+        return missions.stream()
+                .anyMatch(e -> e.getStatus().equals(MissionStatus.ACTIVE) 
+                        && e.getOperator().getId().equals(operator.getId()));
     }
 }
