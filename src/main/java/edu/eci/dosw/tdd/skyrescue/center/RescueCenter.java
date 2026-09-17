@@ -144,7 +144,18 @@ public class RescueCenter {
      */
     public Mission completeMission(String missionId) {
         // TODO Implement using TDD.
-        return null;
+
+        Mission foundMission = missions.stream()
+                .filter(m -> m.getId().equals(missionId))
+                .findFirst()
+                .orElse(null);
+
+        foundMission.setStatus(MissionStatus.COMPLETED);
+        foundMission.setEndDate(LocalDateTime.now());
+        Drone foundDrone = foundMission.getDrone();
+        foundDrone.setAvailable(true);
+
+        return foundMission;
     }
 
     public boolean addOperator(RescueOperator operator) {
