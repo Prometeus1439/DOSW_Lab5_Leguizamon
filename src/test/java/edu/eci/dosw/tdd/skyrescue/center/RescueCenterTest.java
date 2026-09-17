@@ -18,55 +18,55 @@ public class RescueCenterTest {
     @Test
     void shouldRegisterDroneWhenDataIsValid() {
         // Arrange
-        RescueCenter center = new RescueCenter();
-        Drone drone = new Drone("d1", "Matrice300", 15);
+            RescueCenter center = new RescueCenter();
+            Drone drone = new Drone("d1", "Matrice300", 15);
 
         // Act
-        boolean result = center.addDrone(drone);
+            boolean result = center.addDrone(drone);
 
         // Assert
-        assertTrue(result);
+            assertTrue(result);
     }
 
     @Test 
     void shouldNotRegisterNullDrone(){
         // Arrange
-        RescueCenter center = new RescueCenter();
+            RescueCenter center = new RescueCenter();
         
         // Act
-        boolean result = center.addDrone(null);
+            boolean result = center.addDrone(null);
 
         // Assert
-        assertFalse(result);
+            assertFalse(result);
     }
 
     @Test 
     void shouldNotRegisterDroneWithBlankId(){
         // Arrange
-        RescueCenter center = new RescueCenter();
-        Drone drone = new Drone("", "Matrice2000", 100);
+            RescueCenter center = new RescueCenter();
+            Drone drone = new Drone("", "Matrice2000", 100);
 
         // Act
-        boolean result = center.addDrone(drone);
+            boolean result = center.addDrone(drone);
 
         // Assert
-        assertFalse(result);
+            assertFalse(result);
     }
 
     @Test 
     void shouldNotRegisterTwoDronesWithTheSameId(){
         // Arrange
-        RescueCenter center = new RescueCenter();
-        Drone firstDrone = new Drone("d1", "Matrice200", 500);
-        Drone secondDrone = new Drone("d1", "Matrice123", 109);
+            RescueCenter center = new RescueCenter();
+            Drone firstDrone = new Drone("d1", "Matrice200", 500);
+            Drone secondDrone = new Drone("d1", "Matrice123", 109);
 
         // Act
-        boolean firstResult = center.addDrone(firstDrone);
-        boolean secondResult = center.addDrone(secondDrone);
+            boolean firstResult = center.addDrone(firstDrone);
+            boolean secondResult = center.addDrone(secondDrone);
 
         // Assert
-        assertTrue(firstResult);
-        assertFalse(secondResult);
+            assertTrue(firstResult);
+            assertFalse(secondResult);
     }
 
     private RescueCenter center;
@@ -83,26 +83,40 @@ public class RescueCenterTest {
     @Test
     void shouldCreateActiveMissionWhenOperatorAndDroneAreValid() {
         // Arrange
-        center.addDrone(drone);
-        center.addOperator(operator);
+            center.addDrone(drone);
+            center.addOperator(operator);
 
         // Act
-        Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+            Mission createdMission = center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
 
         // Assert
-        assertEquals(MissionStatus.ACTIVE, createdMission.getStatus());
-        assertFalse(drone.isAvailable());
+            assertEquals(MissionStatus.ACTIVE, createdMission.getStatus());
+            assertFalse(drone.isAvailable());
     }
 
     @Test 
-    void shouldDetectUnexistentDrone(){
+    void shouldThrowExceptionWhenDroneDoesNotExist(){
         // Arrange
-        center.addOperator(operator);
+            center.addOperator(operator);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () ->{
-            center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+            assertThrows(IllegalArgumentException.class, () ->{
+                center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
         });
+    }
+
+    @Test 
+    void shouldThrowExceptionWhenDroneIsAssigned(){
+        // Arrange
+            center.addDrone(drone);
+            center.addOperator(operator);
+            drone.setAvailable(false);
+
+        // Act & Assert
+            assertThrows(IllegalStateException.class, () ->{
+                center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+        });
+            
     }
 
 }
