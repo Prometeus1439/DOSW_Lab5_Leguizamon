@@ -98,6 +98,9 @@ public class RescueCenter {
         if(foundDrone == null){
             throw new IllegalArgumentException("Dron inexistente");
         }
+        if(!foundDrone.isAvailable()){
+            throw new IllegalStateException("Dron ya ocupado");
+        }
 
 
         foundDrone.setAvailable(false);
