@@ -2,6 +2,7 @@ package edu.eci.dosw.tdd.skyrescue.center;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import edu.eci.dosw.tdd.skyrescue.mission.Mission;
@@ -93,6 +94,15 @@ public class RescueCenterTest {
         assertFalse(drone.isAvailable());
     }
 
-    
+    @Test 
+    void shouldDetectUnexistentDrone(){
+        // Arrange
+        center.addOperator(operator);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->{
+            center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+        });
+    }
 
 }
