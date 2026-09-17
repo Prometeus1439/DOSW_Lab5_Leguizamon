@@ -95,6 +95,11 @@ public class RescueCenter {
             .orElse(null);
 
         Drone foundDrone = drones.get(droneId);
+        if(foundDrone == null){
+            throw new IllegalArgumentException("Dron inexistente");
+        }
+
+
         foundDrone.setAvailable(false);
         String id = UUID.randomUUID().toString();
 
