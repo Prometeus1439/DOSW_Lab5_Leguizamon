@@ -36,5 +36,5 @@ mínima ya era lo bastante clara y sin necesidad de duplicar el código.
 - PR TDD addDrone: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/3
 - PR TDD assignMission: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/4
 - PR TDD completeMission: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/5
-- PR JaCoCo: #6
+- PR JaCoCo: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/6
 - PR SonarQube: #7
