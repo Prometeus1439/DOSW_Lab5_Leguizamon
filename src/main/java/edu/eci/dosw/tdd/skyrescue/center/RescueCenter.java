@@ -154,6 +154,10 @@ public class RescueCenter {
             throw new IllegalArgumentException("Misión inexistente");
         }
 
+        if (foundMission.getStatus().equals(MissionStatus.COMPLETED)) {
+            throw new IllegalStateException("La misión ya fue completada");
+        }
+
         foundMission.setStatus(MissionStatus.COMPLETED);
         foundMission.setEndDate(LocalDateTime.now());
         Drone foundDrone = foundMission.getDrone();
