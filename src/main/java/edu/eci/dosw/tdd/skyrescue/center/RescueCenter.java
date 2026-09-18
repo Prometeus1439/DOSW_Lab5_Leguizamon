@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * Coordinates drones, operators and emergency missions.
@@ -110,7 +111,7 @@ public class RescueCenter {
         foundDrone.setAvailable(false);
         String id = UUID.randomUUID().toString();
 
-        Mission createdMission = new Mission(id, location, distanceKm, foundDrone, foundOperator, LocalDateTime.now(), MissionStatus.ACTIVE);
+        Mission createdMission = new Mission(id, location, distanceKm, foundDrone, foundOperator, LocalDateTime.now(ZoneId.systemDefault()), MissionStatus.ACTIVE);
 
         boolean result = hasActiveMission(foundOperator);
 
@@ -143,8 +144,6 @@ public class RescueCenter {
      * @return completed mission.
      */
     public Mission completeMission(String missionId) {
-        // TODO Implement using TDD.
-
         Mission foundMission = findMissionById(missionId);
 
         if(foundMission == null){
@@ -156,7 +155,7 @@ public class RescueCenter {
         }
 
         foundMission.setStatus(MissionStatus.COMPLETED);
-        foundMission.setEndDate(LocalDateTime.now());
+        foundMission.setEndDate(LocalDateTime.now(ZoneId.systemDefault()));
         Drone foundDrone = foundMission.getDrone();
         foundDrone.setAvailable(true);
 

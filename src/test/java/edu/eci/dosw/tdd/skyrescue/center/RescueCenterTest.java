@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.eci.dosw.tdd.skyrescue.drone.Drone;
 
-public class RescueCenterTest {
+class RescueCenterTest {
 
     @Test
     void shouldRegisterDroneWhenDataIsValid() {
@@ -101,8 +101,10 @@ public class RescueCenterTest {
             center.addOperator(operator);
 
         // Act & Assert
+            String operatorId = operator.getId();
+            String droneId = drone.getId();
             assertThrows(IllegalArgumentException.class, () ->{
-                center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+                center.assignMission(operatorId, droneId, "Zona A", 40);
         });
     }
 
@@ -114,8 +116,10 @@ public class RescueCenterTest {
             drone.setAvailable(false);
 
         // Act & Assert
+            String operatorId = operator.getId();
+            String droneId = drone.getId();
             assertThrows(IllegalStateException.class, () ->{
-                center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+                center.assignMission(operatorId, droneId, "Zona A", 40);
         });
             
     }
@@ -128,8 +132,10 @@ public class RescueCenterTest {
 
 
         // Act & Assert
+            String operatorId = operator.getId();
+            String droneId = drone.getId();
             assertThrows(IllegalArgumentException.class, () ->{
-                center.assignMission(operator.getId(), drone.getId(), "Zona A", 60);
+                center.assignMission(operatorId, droneId, "Zona A", 60);
         });
             
     }
@@ -141,8 +147,10 @@ public class RescueCenterTest {
             center.addDrone(drone);
 
         // Act & Assert
+            String operatorId = operator.getId();
+            String droneId = drone.getId();
             assertThrows(IllegalArgumentException.class, () ->{
-                center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
+                center.assignMission(operatorId, droneId, "Zona A", 40);
         });
     }
 
@@ -156,8 +164,10 @@ public class RescueCenterTest {
             center.assignMission(operator.getId(), drone.getId(), "Zona A", 40);
 
         // Act & Assert
+            String operatorId = operator.getId();
+            String droneId = secondDrone.getId();
             assertThrows(IllegalStateException.class, () ->{
-                    center.assignMission(operator.getId(), secondDrone.getId(), "Zona A", 40);
+                    center.assignMission(operatorId, droneId, "Zona A", 40);
             });
     }
 
@@ -194,9 +204,11 @@ public class RescueCenterTest {
             center.completeMission(createdMission.getId());
 
         // Act & Assert
-            assertThrows(IllegalStateException.class, () ->{
-                    center.completeMission(createdMission.getId());
-            });
+            String missionId = createdMission.getId();
+
+            assertThrows(IllegalStateException.class, () -> {
+                center.completeMission(missionId);
+        });
     }
 
     @Test
