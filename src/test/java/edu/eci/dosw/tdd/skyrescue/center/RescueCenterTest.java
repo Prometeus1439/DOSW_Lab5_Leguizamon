@@ -3,7 +3,6 @@ package edu.eci.dosw.tdd.skyrescue.center;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +19,11 @@ public class RescueCenterTest {
     @Test
     void shouldRegisterDroneWhenDataIsValid() {
         // Arrange
-            RescueCenter center = new RescueCenter();
-            Drone drone = new Drone("d1", "Matrice300", 15);
+            RescueCenter firstCenter = new RescueCenter();
+            Drone firstDrone = new Drone("d1", "Matrice300", 15);
 
         // Act
-            boolean result = center.addDrone(drone);
+            boolean result = firstCenter.addDrone(firstDrone);
 
         // Assert
             assertTrue(result);
@@ -33,10 +32,10 @@ public class RescueCenterTest {
     @Test 
     void shouldNotRegisterNullDrone(){
         // Arrange
-            RescueCenter center = new RescueCenter();
+            RescueCenter firstCenter = new RescueCenter();
         
         // Act
-            boolean result = center.addDrone(null);
+            boolean result = firstCenter.addDrone(null);
 
         // Assert
             assertFalse(result);
@@ -45,11 +44,11 @@ public class RescueCenterTest {
     @Test 
     void shouldNotRegisterDroneWithBlankId(){
         // Arrange
-            RescueCenter center = new RescueCenter();
-            Drone drone = new Drone("", "Matrice2000", 100);
+            RescueCenter firstCenter = new RescueCenter();
+            Drone firstDrone = new Drone("", "Matrice2000", 100);
 
         // Act
-            boolean result = center.addDrone(drone);
+            boolean result = firstCenter.addDrone(firstDrone);
 
         // Assert
             assertFalse(result);
@@ -58,13 +57,13 @@ public class RescueCenterTest {
     @Test 
     void shouldNotRegisterTwoDronesWithTheSameId(){
         // Arrange
-            RescueCenter center = new RescueCenter();
+            RescueCenter firstCenter = new RescueCenter();
             Drone firstDrone = new Drone("d1", "Matrice200", 500);
             Drone secondDrone = new Drone("d1", "Matrice123", 109);
 
         // Act
-            boolean firstResult = center.addDrone(firstDrone);
-            boolean secondResult = center.addDrone(secondDrone);
+            boolean firstResult = firstCenter.addDrone(firstDrone);
+            boolean secondResult = firstCenter.addDrone(secondDrone);
 
         // Assert
             assertTrue(firstResult);
