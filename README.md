@@ -29,6 +29,18 @@ mínima ya era lo bastante clara y sin necesidad de duplicar el código.
 ### Cobertura final
 ![Cobertura final](docs/evidence/coverage-final.png)
 
+## Evidencia de SonarQube
+
+Quality Gate: **Passed**
+
+![Dashboard SonarQube](docs/evidence/sonarqube-dashboard.png)
+
+- Security: A (0 issues)
+- Reliability: A (2 issues)
+- Maintainability: A (10 issues)
+- Coverage: 86.5%
+- Duplications: 0.0%
+
 ## Pull Requests
 
 - PR JUnit: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/1
@@ -36,5 +48,5 @@ mínima ya era lo bastante clara y sin necesidad de duplicar el código.
 - PR TDD addDrone: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/3
 - PR TDD assignMission: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/4
 - PR TDD completeMission: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/5
-- PR JaCoCo: #6
+- PR JaCoCo: https://github.com/Prometeus1439/DOSW_Lab5_Leguizamon/pull/6
 - PR SonarQube: #7
